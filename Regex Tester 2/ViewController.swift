@@ -8,7 +8,7 @@
 //  https://benscheirman.com/2014/06/regex-in-swift/
 //https://stackoverflow.com/questions/25525171/uitextview-highlight-all-matches-using-swift
 //http://www.thomashanning.com/uitableview-tutorial-for-beginners/
-//workinrogress branch
+//master branch
 
 import UIKit
 
