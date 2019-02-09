@@ -15,12 +15,11 @@ import UIKit
 class ViewController: UIViewController, UITableViewDataSource
 {
  
-    var countRegex : Int = 0
-    
     private var data: [String] = []
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countRegex
+        //return countRegex
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -56,37 +55,45 @@ class ViewController: UIViewController, UITableViewDataSource
         targetObject.layer.borderWidth = 1
         
         tableObject.dataSource = self
+        
+//        regexObject.addTarget(self, action: NSSelectorFromString("regexChanged"), for: UIControl.Event.editingChanged)
     }
 
+    
+ 
+    
     @IBAction func regexChanged(_ sender: Any) {
         regexText = regexObject.text!
         targetText = targetObject.text!
         let attributed = NSMutableAttributedString(string: targetObject.text)
-       
-        attributed.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "HelveticaNeue", size: 28.0)!, range: NSMakeRange(0, targetText.count))
+
+
+        attributed.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "HelveticaNeue", size: 20.0)!, range: NSMakeRange(0, targetText.count))
+
+        attributed.removeAttribute(NSAttributedString.Key.backgroundColor,  range: NSMakeRange(0, targetText.count))
+        
         do {
-            
+
             let regex =  try NSRegularExpression(pattern: regexText, options: .caseInsensitive)
-            
+
             let resultingMatches = regex.matches(in: targetText, range:NSMakeRange(0, targetText.count))
-            
+
             data.removeAll()
-            
-            
-            countRegex = resultingMatches.count
+
+
             resultObject.text = "\(resultingMatches.count)"
-            
-            
+
+
             for match in resultingMatches
             {
             attributed.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.yellow, range: match.range)
-                
+
                 data.append(String(targetText[Range(match.range, in: targetText)!]))
             }
             targetObject.attributedText = attributed
-            
+
             self.tableObject.reloadData()
-            
+
         }
         catch {
             print(self.error)
